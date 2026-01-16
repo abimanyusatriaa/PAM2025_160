@@ -1,0 +1,39 @@
+<resources>
+    <string name="app_name">Tugas</string>
+
+    <string name="entry_parfum">Tambah Parfum</string>
+    <string name="dashboard_parfum">Daftar Parfum</string>
+    <string name="detail_parfum">Detail Parfum</string>
+    <string name="edit_parfum">Edit Parfum</string>
+
+    <string name="no_item">Tidak ada data Parfum. Tap + untuk menambah data</string>
+
+    <string name="nama_parfum">Nama Parfum</string>
+    <string name="aroma_parfum">Aroma</string>
+    <string name="harga_parfum">Harga</string>
+    <string name="deskripsi_parfum">Deskripsi</string>
+    <string name="foto_parfum">URL Foto</string>
+
+    <string name="btn_submit">Simpan</string>
+    <string name="btn_update">Update</string>
+    <string name="btn_delete">Hapus</string>
+    <string name="btn_back">Kembali</string>
+    <string name="btn_logout">Logout</string>
+
+    <string name="perhatian">Perhatian</string>
+    <string name="ya">Ya</string>
+    <string name="tidak">Tidak</string>
+    <string name="konfirmasi_hapus">Apakah Anda yakin ingin menghapus parfum ini?</string>
+
+    <string name="login_title">Login</string>
+    <string name="register_title">Register</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="email">Email</string>
+    <string name="btn_login">Login</string>
+    <string name="btn_register">Register</string>
+    <string name="belum_punya_akun">Belum punya akun? Daftar</string>
+    <string name="sudah_punya_akun">Sudah punya akun? Login</string>
+
+    <string name="loading">Loading...</string>
+</resources>
