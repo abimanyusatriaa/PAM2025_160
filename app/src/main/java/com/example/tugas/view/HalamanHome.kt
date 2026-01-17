@@ -8,8 +8,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.filled.List
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -21,13 +22,21 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.tugas.R
 import com.example.tugas.view.route.DestinasiDashboard
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.tugas.viewmodel.DashboardViewModel
+import com.example.tugas.viewmodel.provider.PenyediaViewModel
 
 @Composable
 fun HalamanHome(
+    username: String,
     onNavigateToKatalog: () -> Unit,
     onNavigateToTambah: () -> Unit,
-    onLogout: () -> Unit
+    onLogout: () -> Unit,
+    viewModel: DashboardViewModel = viewModel(factory = PenyediaViewModel.Factory)
 ) {
+    val uiState by viewModel.dashboardUiState.collectAsState()
+    var logoutConfirmationRequired by remember { mutableStateOf(false) }
+
     Scaffold { padding ->
         Column(
             modifier = Modifier
@@ -51,7 +60,7 @@ fun HalamanHome(
                     color = MaterialTheme.colorScheme.primary
                 )
 
-                IconButton(onClick = onLogout) {
+                IconButton(onClick = { logoutConfirmationRequired = true }) {
                     Icon(
                         imageVector = Icons.Default.ExitToApp,
                         contentDescription = stringResource(R.string.btn_logout),
@@ -70,7 +79,7 @@ fun HalamanHome(
             ) {
                 Column(modifier = Modifier.padding(24.dp)) {
                     Text(
-                        text = "Selamat Datang!",
+                        text = "Selamat Datang, $username!",
                         style = MaterialTheme.typography.headlineMedium,
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.onSecondaryContainer
@@ -79,6 +88,39 @@ fun HalamanHome(
                         text = "Kelola data parfum Anda dengan mudah.",
                         style = MaterialTheme.typography.bodyLarge,
                         color = MaterialTheme.colorScheme.onSecondaryContainer
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // Statistics Card
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 8.dp),
+                elevation = CardDefaults.cardElevation(4.dp),
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
+            ) {
+                Column(
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    Text(
+                        text = "Parfum",
+                        style = MaterialTheme.typography.headlineMedium,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                    
+                    Text(
+                        text = "${uiState.jumlahParfum}",
+                        style = MaterialTheme.typography.displayLarge,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.primary
                     )
                 }
             }
@@ -102,6 +144,17 @@ fun HalamanHome(
                     icon = Icons.Default.Add,
                     onClick = onNavigateToTambah,
                     modifier = Modifier.weight(1f)
+                )
+            }
+
+            if (logoutConfirmationRequired) {
+                LogoutConfirmationDialog(
+                    onLogoutConfirm = {
+                        logoutConfirmationRequired = false
+                        onLogout()
+                    },
+                    onLogoutCancel = { logoutConfirmationRequired = false },
+                    modifier = Modifier.padding(padding)
                 )
             }
         }
@@ -145,4 +198,28 @@ fun DashboardCard(
             )
         }
     }
+}
+
+@Composable
+private fun LogoutConfirmationDialog(
+    onLogoutConfirm: () -> Unit,
+    onLogoutCancel: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    AlertDialog(
+        onDismissRequest = { /* Do nothing */ },
+        title = { Text(stringResource(R.string.perhatian)) },
+        text = { Text(stringResource(R.string.konfirmasi_logout)) },
+        modifier = modifier,
+        dismissButton = {
+            TextButton(onClick = onLogoutCancel) {
+                Text(text = stringResource(R.string.tidak))
+            }
+        },
+        confirmButton = {
+            TextButton(onClick = onLogoutConfirm) {
+                Text(text = stringResource(R.string.ya))
+            }
+        }
+    )
 }

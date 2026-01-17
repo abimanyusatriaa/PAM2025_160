@@ -26,6 +26,7 @@ fun HalamanEdit(
 ) {
     val uiState by viewModel.uiState.collectAsState()
     var deleteConfirmationRequired by remember { mutableStateOf(false) }
+    var updateConfirmationRequired by remember { mutableStateOf(false) }
 
 
     LaunchedEffect(parfum) {
@@ -63,14 +64,25 @@ fun HalamanEdit(
                 detail = uiState,
                 onValueChange = viewModel::updateUi,
                 onSubmit = {
-                    viewModel.updateParfum()
-                    navigateBack()
+                    updateConfirmationRequired = true
                 },
                 onDelete = {
                     deleteConfirmationRequired = true
                 },
                 modifier = Modifier.padding(padding)
             )
+
+            if (updateConfirmationRequired) {
+                UpdateConfirmationDialog(
+                    onUpdateConfirm = {
+                        updateConfirmationRequired = false
+                        viewModel.updateParfum()
+                        navigateBack()
+                    },
+                    onUpdateCancel = { updateConfirmationRequired = false },
+                    modifier = Modifier.padding(padding)
+                )
+            }
 
             if (deleteConfirmationRequired) {
                 DeleteConfirmationDialog(
@@ -105,6 +117,30 @@ private fun DeleteConfirmationDialog(
         },
         confirmButton = {
             TextButton(onClick = onDeleteConfirm) {
+                Text(text = stringResource(R.string.ya))
+            }
+        }
+    )
+}
+
+@Composable
+private fun UpdateConfirmationDialog(
+    onUpdateConfirm: () -> Unit,
+    onUpdateCancel: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    AlertDialog(
+        onDismissRequest = { /* Do nothing */ },
+        title = { Text(stringResource(R.string.perhatian)) },
+        text = { Text(stringResource(R.string.konfirmasi_update)) },
+        modifier = modifier,
+        dismissButton = {
+            TextButton(onClick = onUpdateCancel) {
+                Text(text = stringResource(R.string.tidak))
+            }
+        },
+        confirmButton = {
+            TextButton(onClick = onUpdateConfirm) {
                 Text(text = stringResource(R.string.ya))
             }
         }

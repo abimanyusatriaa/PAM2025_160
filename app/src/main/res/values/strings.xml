@@ -24,6 +24,8 @@
     <string name="ya">Ya</string>
     <string name="tidak">Tidak</string>
     <string name="konfirmasi_hapus">Apakah Anda yakin ingin menghapus parfum ini?</string>
+    <string name="konfirmasi_logout">Apakah anda yakin ingin keluar?</string>
+    <string name="konfirmasi_update">Apakah anda yakin data sudah benar?</string>
 
     <string name="login_title">Login</string>
     <string name="register_title">Register</string>
