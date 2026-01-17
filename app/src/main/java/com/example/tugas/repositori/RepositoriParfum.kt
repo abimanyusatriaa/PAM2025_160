@@ -10,6 +10,7 @@ interface RepositoriParfum {
     suspend fun updateParfum(parfum: Parfum)
     suspend fun deleteParfum(parfum: Parfum)
     suspend fun getParfumById(id: Int): Parfum?
+    fun getParfumCount(): Flow<Int>
 }
 
 class OfflineRepositoriParfum(
@@ -30,4 +31,7 @@ class OfflineRepositoriParfum(
 
     override suspend fun getParfumById(id: Int): Parfum? =
         parfumDao.getParfumById(id)
+
+    override fun getParfumCount(): Flow<Int> =
+        parfumDao.getParfumCount()
 }

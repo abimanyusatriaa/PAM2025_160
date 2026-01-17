@@ -26,4 +26,7 @@ interface ParfumDao {
     @Query("SELECT * FROM parfum WHERE id = :id")
     suspend fun getParfumById(id: Int): Parfum?
 
+    @Query("SELECT COUNT(*) FROM parfum")
+    fun getParfumCount(): Flow<Int>
+
 }

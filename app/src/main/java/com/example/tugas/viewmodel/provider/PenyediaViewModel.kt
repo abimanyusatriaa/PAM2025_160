@@ -9,6 +9,7 @@ import com.example.tugas.viewmodel.HomeViewModel
 import com.example.tugas.viewmodel.TambahViewModel
 import com.example.tugas.viewmodel.LoginViewModel
 import com.example.tugas.viewmodel.RegisterViewModel
+import com.example.tugas.viewmodel.DashboardViewModel
 
 object PenyediaViewModel {
 
@@ -24,6 +25,9 @@ object PenyediaViewModel {
         }
         initializer {
             RegisterViewModel(aplikasiParfum().container.repositoriUser)
+        }
+        initializer {
+            DashboardViewModel(aplikasiParfum().container.repositoriParfum)
         }
     }
 }

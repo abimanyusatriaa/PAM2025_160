@@ -42,8 +42,8 @@ fun HostNavigasi(
     ){
         composable(DestinasiLogin.route) {
             HalamanLogin(
-                navigateToHome = {
-                    navController.navigate(DestinasiDashboard.route) {
+                navigateToHome = { username ->
+                    navController.navigate("dashboard/$username") {
                         popUpTo(DestinasiLogin.route) { inclusive = true }
                     }
                 },
@@ -63,8 +63,10 @@ fun HostNavigasi(
             )
         }
 
-        composable(DestinasiDashboard.route){
+        composable(DestinasiDashboard.route){ backStackEntry ->
+            val username = backStackEntry.arguments?.getString("username") ?: "User"
             HalamanHome(
+                username = username,
                 onNavigateToKatalog = { navController.navigate(DestinasiListParfum.route) },
                 onNavigateToTambah = { navController.navigate(DestinasiTambah.route) },
                 onLogout = {

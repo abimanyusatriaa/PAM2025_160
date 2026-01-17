@@ -31,7 +31,7 @@ import com.example.tugas.viewmodel.provider.PenyediaViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HalamanLogin(
-    navigateToHome: () -> Unit,
+    navigateToHome: (String) -> Unit,
     navigateToRegister: () -> Unit,
     viewModel: LoginViewModel = viewModel(factory = PenyediaViewModel.Factory)
 ) {

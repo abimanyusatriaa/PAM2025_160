@@ -20,11 +20,11 @@ class LoginViewModel(private val repositoriUser: RepositoriUser) : ViewModel() {
         errorMessage = null
     }
 
-    fun login(onLoginSuccess: () -> Unit) {
+    fun login(onLoginSuccess: (String) -> Unit) {
         viewModelScope.launch {
             val user = repositoriUser.getUserByEmail(loginUiState.email)
             if (user != null && user.password == loginUiState.password) {
-                onLoginSuccess()
+                onLoginSuccess(user.username)
             } else {
                 errorMessage = "Email atau Password salah"
             }
